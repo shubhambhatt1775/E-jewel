@@ -178,10 +178,10 @@ const Cart = () => {
                       date: new Date().toLocaleDateString()
                     }
                 
-                    generateInvoice(orderForInvoice);
+                    
                 
                     navigate('/my-orders')
-                }else{
+                    generateInvoice(orderForInvoice);
                     toast.error(data.message)
                 }
             }

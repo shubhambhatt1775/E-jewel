@@ -196,22 +196,46 @@ export const stripeWebhooks = async (request, response)=>{
 
     // Handle the event
     switch (event.type) {
-        case "payment_intent.succeeded":{
+        case "payment_intent.succeeded": {
             const paymentIntent = event.data.object;
             const paymentIntentId = paymentIntent.id;
-
-            // Getting Session Metadata
+        
+            // Get checkout session
             const session = await stripeInstance.checkout.sessions.list({
                 payment_intent: paymentIntentId,
             });
-
+        
             const { orderId, userId } = session.data[0].metadata;
+        
             // Mark Payment as Paid
-            await Order.findByIdAndUpdate(orderId, {isPaid: true})
+            await Order.findByIdAndUpdate(orderId, { isPaid: true });
+        
             // Clear user cart
-            await User.findByIdAndUpdate(userId, {cartItems: {}});
+            const user = await User.findByIdAndUpdate(userId, { cartItems: {} }, { new: true });
+        
+            // Fetch order details for invoice
+            const order = await Order.findById(orderId).populate("items.product");
+        
+            // Prepare invoice details
+            const orderForInvoice = {
+                id: [order._id],
+                items: order.items.map(i => ({
+                    name: i.product.name,
+                    price: i.product.offerPrice,
+                    quantity: i.quantity
+                })),
+                address: order.address,
+                totalAmount: order.amount,
+                userName: user.name || user.email || "Customer",
+                date: new Date().toLocaleDateString()
+            };
+        
+            // Generate invoice here (call your generateInvoice function)
+            await generateInvoice(orderForInvoice);
+        
             break;
         }
+        
         case "payment_intent.payment_failed": {
             const paymentIntent = event.data.object;
             const paymentIntentId = paymentIntent.id;
