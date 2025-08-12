@@ -73,9 +73,10 @@ import others from "./others.png";
 import video from "./videoplayback.mp4";
 import bangles from "./bangles.jpg";
 import boximage from "./boximage.jpg"
-
+import shubham from "./shubham.jpg"
 
 export const assets = {
+  shubham,
   video,
   logo,
   boximage,

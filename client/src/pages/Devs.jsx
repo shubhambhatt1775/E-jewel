@@ -1,4 +1,5 @@
 import React from "react";
+import { assets } from "../assets/assets";
 
 // DeveloperCards.jsx
 // Responsive, dynamic developer cards grid built with TailwindCSS.
@@ -16,7 +17,7 @@ export default function DeveloperCards({ developers = [] }) {
       id: "1",
       name: "Shubham Bhatt",
       role: "FULL STACK Developer",
-      avatar: "https://i.pravatar.cc/150?img=3",
+      avatar: assets.shubham,
       bio: "Focused on building beautiful, accessible UIs. PROBLEM SOLVER",
       skills: ["React", "Tailwind", "Figma","node",],
       links: { github: "https://github.com/shubhambhatt1775", linkedin: "https://www.linkedin.com/in/shubham-bhatt-761170316" },
