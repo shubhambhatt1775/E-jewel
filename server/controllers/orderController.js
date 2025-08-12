@@ -196,46 +196,22 @@ export const stripeWebhooks = async (request, response)=>{
 
     // Handle the event
     switch (event.type) {
-        case "payment_intent.succeeded": {
+        case "payment_intent.succeeded":{
             const paymentIntent = event.data.object;
             const paymentIntentId = paymentIntent.id;
-        
-            // Get checkout session
+
+            // Getting Session Metadata
             const session = await stripeInstance.checkout.sessions.list({
                 payment_intent: paymentIntentId,
             });
-        
+
             const { orderId, userId } = session.data[0].metadata;
-        
             // Mark Payment as Paid
-            await Order.findByIdAndUpdate(orderId, { isPaid: true });
-        
+            await Order.findByIdAndUpdate(orderId, {isPaid: true})
             // Clear user cart
-            const user = await User.findByIdAndUpdate(userId, { cartItems: {} }, { new: true });
-        
-            // Fetch order details for invoice
-            const order = await Order.findById(orderId).populate("items.product");
-        
-            // Prepare invoice details
-            const orderForInvoice = {
-                id: [order._id],
-                items: order.items.map(i => ({
-                    name: i.product.name,
-                    price: i.product.offerPrice,
-                    quantity: i.quantity
-                })),
-                address: order.address,
-                totalAmount: order.amount,
-                userName: user.name || user.email || "Customer",
-                date: new Date().toLocaleDateString()
-            };
-        
-            // Generate invoice here (call your generateInvoice function)
-            await generateInvoice(orderForInvoice);
-        
+            await User.findByIdAndUpdate(userId, {cartItems: {}});
             break;
         }
-        
         case "payment_intent.payment_failed": {
             const paymentIntent = event.data.object;
             const paymentIntentId = paymentIntent.id;
@@ -265,7 +241,7 @@ export const getUserOrders = async (req, res)=>{
         const { userId } = req.body;
         const orders = await Order.find({
             userId,
-            $or: [{paymentType: "COD"}, {isPaid: true}]
+            paymentType: { $in: ["COD", "Online"] }
         }).populate("items.product address").sort({createdAt: -1});
         res.json({ success: true, orders });
     } catch (error) {
@@ -275,13 +251,15 @@ export const getUserOrders = async (req, res)=>{
 
 
 // Get All Orders ( for seller / admin) : /api/order/seller
-export const getAllOrders = async (req, res)=>{
+export const getAllOrders = async (req, res) => {
     try {
-        const orders = await Order.find({
-            $or: [{paymentType: "COD"}, {isPaid: true}]
-        }).populate("items.product address").sort({createdAt: -1});
-        res.json({ success: true, orders });
+      const orders = await Order.find({
+        paymentType: { $in: ["COD", "Online"] }
+      }).populate("items.product address").sort({ createdAt: -1 });
+      
+      res.json({ success: true, orders });
     } catch (error) {
-        res.json({ success: false, message: error.message });
+      res.json({ success: false, message: error.message });
     }
-}
+  }
+  
