@@ -50,10 +50,10 @@ export const placeOrderStripe = async (req, res)=>{
             const product = await Product.findById(item.product);
             productData.push({
                 name: product.name,
-                price: product.offerPrice,
+                price: product.offerPrice ,
                 quantity: item.quantity,
             });
-            return (await acc) + product.offerPrice * item.quantity;
+            return (await acc) + (product.offerPrice*100) * item.quantity;
         }, 0)
 
         // Add Tax Charge (2%)
@@ -75,11 +75,11 @@ export const placeOrderStripe = async (req, res)=>{
      const line_items = productData.map((item)=>{
         return {
             price_data: {
-                currency: "usd",
+                currency: "inr",
                 product_data:{
                     name: item.name,
                 },
-                unit_amount: Math.floor(item.price + item.price * 0.02)  * 100
+               unit_amount:Math.floor(item.price + item.price * 0.02)  * 100
             },
             quantity: item.quantity,
         }

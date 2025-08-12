@@ -155,14 +155,32 @@ const Cart = () => {
             }else{
                 //CreditCard/>
                 // Place Order with Stripe
-                const {data} = await axios.post('/api/order/online', {
+                
+                const {data} = await axios.post('/api/order/stripe', {
                     userId: user._id,
                     items: cartArray.map(item=> ({product: item._id, quantity: item.quantity})),
                     address: selectedAddress._id
+                    
                 })
+                window.location.replace(data.url)
 
                 if(data.success){
-                    window.location.replace(data.url)
+                    // window.location.replace(data.url)
+                    setCartItems({})
+                
+                    // Prepare invoice details for PDF
+                    const orderForInvoice = {
+                      id: [0],
+                      items: cartArray,
+                      address: selectedAddress,
+                      totalAmount: getCartAmount() + (getCartAmount() * 2 / 100), // including tax
+                      userName: user.name || user.email || "Customer",
+                      date: new Date().toLocaleDateString()
+                    }
+                
+                    generateInvoice(orderForInvoice);
+                
+                    navigate('/my-orders')
                 }else{
                     toast.error(data.message)
                 }
@@ -287,16 +305,18 @@ const Cart = () => {
                 </div>
 
                 <button onClick={() => {
-  if (paymentOption === "COD") {
-    placeOrder();
-  } else {
-    navigate("/card", {
-        state: {
-          value: { cardNumber: "", cardHolder: "", month: "", year: "", cvv: "" }
-        }
-      });
+                             if (paymentOption === "COD") {
+                                               placeOrder();
+                             } else {
+                                placeOrder();
+                                
+                //                     navigate("/card", {
+                //                     state: {
+                //                     value: { cardNumber: "", cardHolder: "", month: "", year: "", cvv: "" }
+                //                                }
+                //                     });
       
-  }
+                             }
 }}
  className="w-full py-3 mt-6 cursor-pointer bg-primary text-white font-medium hover:bg-primary-dull transition">
                     {paymentOption === "COD" ? "Place Order" : "Proceed to Checkout"}

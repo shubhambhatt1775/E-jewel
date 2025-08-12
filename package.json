@@ -5,7 +5,8 @@
     "jspdf-autotable": "^5.0.2",
     "react-input-mask": "^2.0.4",
     "react-input-mask-next": "^3.0.0-alpha.12",
-    "react-toastify": "^11.0.5"
+    "react-toastify": "^11.0.5",
+    "stripe": "^18.4.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
