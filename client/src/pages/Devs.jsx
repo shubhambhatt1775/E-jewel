@@ -22,7 +22,7 @@ export default function DeveloperCards({ developers = [] }) {
       skills: ["React", "Tailwind", "Figma","node",],
       links: { github: "https://github.com/shubhambhatt1775", linkedin: "https://www.linkedin.com/in/shubham-bhatt-761170316" },
       location:"Palanpur",
-      portfolio:"https://shubhambhatt1775.github.io/portfolio"
+      portfolio:"https://shubhambhatt1775.github.io/Shubham-Intro"
     },
     {
       id: "2",
