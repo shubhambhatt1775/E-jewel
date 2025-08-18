@@ -76,8 +76,10 @@ import boximage from "./boximage.jpg"
 import shubham from "./shubham.jpg"
 import frame1 from "./Frame 1.png"
 import frame2 from "./Frame 2.png"
+import abhi from "./Frame 3.png"
 
 export const assets = {
+  abhi,
   frame1,
   frame2,
   shubham,
