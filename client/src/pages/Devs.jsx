@@ -17,7 +17,7 @@ export default function DeveloperCards({ developers = [] }) {
       id: "1",
       name: "Shubham Bhatt",
       role: "FULL STACK Developer",
-      avatar: assets.shubham,
+      avatar: assets.frame2,
       bio: "Focused on building beautiful, accessible UIs. PROBLEM SOLVER",
       skills: ["React", "Tailwind", "Figma","node",],
       links: { github: "https://github.com/shubhambhatt1775", linkedin: "https://www.linkedin.com/in/shubham-bhatt-761170316" },
@@ -51,28 +51,28 @@ export default function DeveloperCards({ developers = [] }) {
   const list = developers && developers.length > 0 ? developers : sample;
 
   return (
-    <section className="py-8">
+    <section className="py-10">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-2xl md:text-3xl font-semibold mb-6 text-gray-800">Meet the Developers</h2>
         <p className="text-gray-500 mb-8">Small, focused team — big ideas. Click a card to copy email (if provided).</p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 gap-6">
           {list.map((dev) => (
             <article
               key={dev.id}
-              className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition p-5 overflow-hidden"
+              className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition p-12 overflow-hidden"
             >
-              <div className="flex items-start gap-4">
-                <img
+              <div className="flex items-center gap-12">
+                <img 
                   src={dev.avatar}
                   alt={dev.name}
-                  className="w-20 h-20 rounded-xl object-cover border-2 border-primary/20 shadow-sm"
+                  className="w-50 h-50 rounded-xl object-cover "
                 />
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-lg font-medium text-gray-900">{dev.name}</h3>
-                      <p className="text-sm text-gray-500">{dev.role}</p>
+                      <h3 className="text-3xl font-medium text-gray-900 sm:text-XL">{dev.name}</h3>
+                      <p className="text-lg text-gray-500 mt-2 py-2">{dev.role}</p>
                     </div>
                     <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition">
                       {dev.links?.linkedin && (
@@ -92,11 +92,11 @@ export default function DeveloperCards({ developers = [] }) {
                     </div>
                   </div>
 
-                  <p className="mt-3 text-gray-600 text-sm">{dev.bio}</p>
+                  <p className="mt-1 text-gray-600 text-sm">{dev.bio}</p>
 
-                  <div className="mt-4 flex flex-wrap gap-2">
+                  <div className="mt-4 flex flex-wrap gap-2 ">
                     {dev.skills?.slice(0, 6).map((skill, i) => (
-                      <span key={i} className="text-xs bg-gray-100 px-2 py-1 rounded-full text-gray-700">
+                      <span key={i} className="text-xs bg-gray-100 px-2 py-1 rounded-full text-gray-700 hover:bg-green-400 hover:text-whit">
                         {skill}
                       </span>
                     ))}
@@ -105,7 +105,7 @@ export default function DeveloperCards({ developers = [] }) {
                 </div>
               </div>
 
-              <div className="mt-4 flex items-center justify-between">
+              <div className="mt-4 px-2 flex items-center justify-between">
                 <div className="text-sm text-gray-500">{dev.location || "Location not provided"}</div>
                 <div className="flex items-center gap-3">
                   {dev.email && (

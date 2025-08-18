@@ -74,8 +74,12 @@ import video from "./videoplayback.mp4";
 import bangles from "./bangles.jpg";
 import boximage from "./boximage.jpg"
 import shubham from "./shubham.jpg"
+import frame1 from "./Frame 1.png"
+import frame2 from "./Frame 2.png"
 
 export const assets = {
+  frame1,
+  frame2,
   shubham,
   video,
   logo,
