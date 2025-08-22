@@ -33,7 +33,7 @@ export default function DeveloperCards({ developers = [] }) {
       id: "3",
       name: "Ajay",
       role: "Mobile / Full-Stack",
-      avatar: "https://i.pravatar.cc/150?img=8",
+      avatar: assets.ajay,
       bio: "Mobile-first and cross-platform apps.",
       skills: ["React Native", "Flutter", "CI/CD"],
       links: { github: "#", linkedin: "#" },
